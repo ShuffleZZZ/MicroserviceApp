@@ -19,12 +19,12 @@ public class DataSourceService {
 
     public DataSourceDto dataSourceToDto(DataSource dataSource) {
         return new DataSourceDto(
-                dataSource.getName(),
-                dataSource.getAddress(),
-                dataSource.getPort(),
-                dataSource.getLogin(),
-                dataSource.getPassword(),
-                dataSource.getAvailableRoles()
+            dataSource.getName(),
+            dataSource.getAddress(),
+            dataSource.getPort(),
+            dataSource.getLogin(),
+            dataSource.getPassword(),
+            dataSource.getAvailableRoles()
         );
     }
 
@@ -34,12 +34,12 @@ public class DataSourceService {
 
     public DataSource dtoToDataSource(DataSourceDto dataSourceDto) {
         return new DataSource(
-                dataSourceDto.getName(),
-                dataSourceDto.getAddress(),
-                dataSourceDto.getPort(),
-                dataSourceDto.getLogin(),
-                dataSourceDto.getPassword(),
-                dataSourceDto.getAvailableRoles()
+            dataSourceDto.getName(),
+            dataSourceDto.getAddress(),
+            dataSourceDto.getPort(),
+            dataSourceDto.getLogin(),
+            dataSourceDto.getPassword(),
+            dataSourceDto.getAvailableRoles()
         );
     }
 
@@ -49,6 +49,10 @@ public class DataSourceService {
 
     public Optional<DataSource> findById(Long id) {
         return dataSourceRepository.findById(id);
+    }
+
+    public Optional<DataSource> findByName(String name) {
+        return dataSourceRepository.findByName(name);
     }
 
     public DataSource save(DataSource dataSource) {

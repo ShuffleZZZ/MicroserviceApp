@@ -1,6 +1,7 @@
 package com.shufflezzz.ConfigManager.models;
 
 import com.shufflezzz.Connector.models.Role;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,6 +20,7 @@ public class DataSet {
 
     @ManyToOne
     @JoinColumn(name = "dsrc_connection_name")
+    @Cascade(value = org.hibernate.annotations.CascadeType.DETACH)
     private DataSource connectionName;
 
     @Column(name = "dset_sql_request")

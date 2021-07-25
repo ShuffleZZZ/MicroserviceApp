@@ -14,7 +14,7 @@ public class DataSource {
     private long id;
 
 
-    @Column(name = "dsrc_connection_name")
+    @Column(name = "dsrc_connection_name", unique = true)
     private String name;
 
     @Column(name = "dsrc_address")

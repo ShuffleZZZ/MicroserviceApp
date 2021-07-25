@@ -7,11 +7,11 @@ import java.util.List;
 public class DataSetDto {
 
     private String setName;
-    private DataSourceDto connectionName;
+    private String connectionName;
     private String sqlQuery;
     private List<Role> availableRoles;
 
-    public DataSetDto(String setName, DataSourceDto connectionName, String sqlQuery, List<Role> availableRoles) {
+    public DataSetDto(String setName, String connectionName, String sqlQuery, List<Role> availableRoles) {
         this.setName = setName;
         this.connectionName = connectionName;
         this.sqlQuery = sqlQuery;
@@ -29,11 +29,11 @@ public class DataSetDto {
         this.setName = setName;
     }
 
-    public DataSourceDto getConnectionName() {
+    public String getConnectionName() {
         return connectionName;
     }
 
-    public void setConnectionName(DataSourceDto connectionName) {
+    public void setConnectionName(String connectionName) {
         this.connectionName = connectionName;
     }
 

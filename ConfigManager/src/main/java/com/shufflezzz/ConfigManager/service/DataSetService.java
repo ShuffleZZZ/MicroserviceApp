@@ -23,10 +23,10 @@ public class DataSetService {
 
     public DataSetDto dataSetToDto(DataSet dataSet) {
         return new DataSetDto(
-                dataSet.getSetName(),
-                dataSourceService.dataSourceToDto(dataSet.getConnectionName()),
-                dataSet.getSqlQuery(),
-                dataSet.getAvailableRoles()
+            dataSet.getSetName(),
+            dataSet.getConnectionName().getName(),
+            dataSet.getSqlQuery(),
+            dataSet.getAvailableRoles()
         );
     }
 
@@ -36,10 +36,10 @@ public class DataSetService {
 
     public DataSet dtoToDataSet(DataSetDto dataSetDto) {
         return new DataSet(
-                dataSetDto.getSetName(),
-                dataSourceService.dtoToDataSource(dataSetDto.getConnectionName()),
-                dataSetDto.getSqlQuery(),
-                dataSetDto.getAvailableRoles()
+            dataSetDto.getSetName(),
+            dataSourceService.findByName(dataSetDto.getConnectionName()).get(),
+            dataSetDto.getSqlQuery(),
+            dataSetDto.getAvailableRoles()
         );
     }
 
@@ -57,7 +57,7 @@ public class DataSetService {
 
     public DataSet updateDataSet(DataSet dataSet, DataSetDto dataSetDto) {
         dataSet.setSetName(dataSetDto.getSetName());
-        dataSet.setConnectionName(dataSourceService.dtoToDataSource(dataSetDto.getConnectionName()));
+        dataSet.setConnectionName(dataSourceService.findByName(dataSetDto.getConnectionName()).get());
         dataSet.setSqlQuery(dataSetDto.getSqlQuery());
         dataSet.setAvailableRoles(dataSetDto.getAvailableRoles());
 

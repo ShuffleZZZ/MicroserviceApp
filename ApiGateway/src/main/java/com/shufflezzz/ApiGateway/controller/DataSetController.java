@@ -11,58 +11,35 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/datasets")
-public class DataSetController {
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+public class DataSetController extends AbstractController {
 
     @GetMapping("/getData/{id}")
-    public Object getData(@PathVariable(value = "id") Long dataSetId) {
-        return rabbitTemplate.convertSendAndReceive(RabbitMQ.EXCHANGE, RabbitMQ.DATA_GET_QUEUE, dataSetId);
+    public String getData(@PathVariable(value = "id") Long dataSetId) {
+        return handleRequest(RabbitMQ.DATA_GET_QUEUE, dataSetId);
     }
 
     @GetMapping("/getAllDataSets")
-    public List<DataSetDto> getALlDataSets() {
-        return (List<DataSetDto>) rabbitTemplate.convertSendAndReceive(
-                RabbitMQ.EXCHANGE,
-                RabbitMQ.DATA_SET_GET_ALL_QUEUE,
-                new Object()
-        );
+    public String getALlDataSets() {
+        return handleRequest(RabbitMQ.DATA_SET_GET_ALL_QUEUE, new Object());
     }
 
     @GetMapping("/{id}")
-    public DataSetDto getDataSetById(@PathVariable(value = "id") Long dataSetId) {
-        return (DataSetDto) rabbitTemplate.convertSendAndReceive(
-                RabbitMQ.EXCHANGE,
-                RabbitMQ.DATA_SET_GET_QUEUE,
-                dataSetId
-        );
+    public String getDataSetById(@PathVariable(value = "id") Long dataSetId) {
+        return handleRequest(RabbitMQ.DATA_SET_GET_QUEUE, dataSetId);
     }
 
     @PostMapping("/")
-    public DataSetDto createDataSet(@RequestBody DataSetDto dataSet) {
-        return (DataSetDto) rabbitTemplate.convertSendAndReceive(
-                RabbitMQ.EXCHANGE,
-                RabbitMQ.DATA_SET_CREATE_QUEUE,
-                dataSet
-        );
+    public String createDataSet(@RequestBody DataSetDto dataSet) {
+        return handleRequest(RabbitMQ.DATA_SET_CREATE_QUEUE, dataSet);
     }
 
     @PutMapping("/{id}")
-    public DataSetDto updateDataSet(@PathVariable(value = "id") Long dataSetId, @RequestBody DataSetDto newDataSet) {
-        return (DataSetDto) rabbitTemplate.convertSendAndReceive(
-                RabbitMQ.EXCHANGE,
-                RabbitMQ.DATA_SET_UPDATE_QUEUE,
-                new UpdateDataSetDto(dataSetId, newDataSet)
-        );
+    public String updateDataSet(@PathVariable(value = "id") Long dataSetId, @RequestBody DataSetDto newDataSet) {
+        return handleRequest(RabbitMQ.DATA_SET_UPDATE_QUEUE, new UpdateDataSetDto(dataSetId, newDataSet));
     }
 
     @DeleteMapping("/{id}")
-    public DataSetDto deleteDataSet(@PathVariable(value = "id") Long dataSetId) {
-        return (DataSetDto) rabbitTemplate.convertSendAndReceive(
-                RabbitMQ.EXCHANGE,
-                RabbitMQ.DATA_SET_DELETE_QUEUE,
-                dataSetId
-        );
+    public String deleteDataSet(@PathVariable(value = "id") Long dataSetId) {
+        return handleRequest(RabbitMQ.DATA_SET_DELETE_QUEUE, dataSetId);
     }
 }

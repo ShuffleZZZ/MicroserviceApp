@@ -22,31 +22,31 @@ public class UserListener {
     private final Gson gson = new Gson();
 
     @RabbitListener(queues = RabbitMQ.USER_GET_QUEUE)
-    public UserDto handleGet(Message message) {
+    public String handleGet(Message message) {
         final Long userId = gson.fromJson(new String(message.getBody()), Long.class);
         final Optional<User> userEntity = userService.findById(userId);
 
-        return userEntity.map(user -> userService.userToDto(user)).orElse(null);
+        return gson.toJson(userEntity.map(user -> userService.userToDto(user)).orElse(null));
     }
 
     @RabbitListener(queues = RabbitMQ.USER_CREATE_QUEUE)
-    public UserDto handleCreate(Message message) {
+    public String handleCreate(Message message) {
         final UserDto userDto = gson.fromJson(new String(message.getBody()), UserDto.class);
-        return userService.userToDto(userService.save(userService.dtoToUser(userDto)));
+        return gson.toJson(userService.userToDto(userService.save(userService.dtoToUser(userDto))));
     }
 
     @RabbitListener(queues = RabbitMQ.USER_UPDATE_QUEUE)
-    public UserDto handleUpdate(Message message) {
+    public String handleUpdate(Message message) {
         final UpdateUserDto updateUserDto = gson.fromJson(new String(message.getBody()), UpdateUserDto.class);
         final Optional<User> userEntity = userService.findById(updateUserDto.getUserId());
 
-        return userEntity.map(user ->
+        return gson.toJson(userEntity.map(user ->
                 userService.userToDto(userService.save(userService.updateUser(user, updateUserDto.getUserDto())))
-        ).orElse(null);
+        ).orElse(null));
     }
 
     @RabbitListener(queues = RabbitMQ.USER_DELETE_QUEUE)
-    public UserDto handleDelete(Message message) {
+    public String handleDelete(Message message) {
         final Long userId = gson.fromJson(new String(message.getBody()), Long.class);
         final Optional<User> userEntity = userService.findById(userId);
 
@@ -54,18 +54,18 @@ public class UserListener {
             final User user = userEntity.get();
             userService.delete(user);
 
-            return userService.userToDto(user);
+            return gson.toJson(userService.userToDto(user));
         }
 
-        return null;
+        return gson.toJson(null);
     }
 
     @RabbitListener(queues = RabbitMQ.USER_LOGIN_QUEUE)
-    public UserDto handleLogin(Message message) {
+    public String handleLogin(Message message) {
         final UserDto userDto = gson.fromJson(new String(message.getBody()), UserDto.class);
 
         // TODO.
 
-        return null;
+        return gson.toJson(null);
     }
 }

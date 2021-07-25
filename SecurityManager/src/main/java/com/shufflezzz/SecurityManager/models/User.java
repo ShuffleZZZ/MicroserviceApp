@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "u_login"))
+@Table(name = "app_user", uniqueConstraints = @UniqueConstraint(columnNames = "u_login"))
 public class User {
 
     @Id
